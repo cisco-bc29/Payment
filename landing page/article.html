@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Published Articles</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+
+<body class="bg-gray-100">
+
+<header class="bg-indigo-600 text-white py-6 shadow-lg">
+
+<div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+
+<h1 class="text-3xl font-bold">
+InkFlow Articles
+</h1>
+
+<a href="create.html"
+class="bg-white text-indigo-600 px-5 py-3 rounded-xl font-semibold hover:bg-gray-100 transition">
+
+<i class="fa-solid fa-plus mr-2"></i>
+Create Article
+
+</a>
+
+</div>
+
+</header>
+
+<section class="max-w-7xl mx-auto p-6">
+
+<div
+id="articlesContainer"
+class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+</div>
+
+</section>
+
+<footer
+id="footer"
+class="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white pt-16 pb-8 border-t border-gray-800">
+
+    <div
+    class="max-w-7xl mx-auto px-6">
+
+        <div
+        class="grid md:grid-cols-3 gap-14">
+
+            <!-- BRAND -->
+
+            <div>
+
+                <div
+                class="flex items-center gap-3 mb-5">
+
+                    <div
+                    class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-xl shadow-lg shadow-indigo-500/30">
+
+                        <i class="fa-solid fa-pen-nib"></i>
+
+                    </div>
+
+                    <h3
+                    class="text-3xl font-extrabold tracking-wide">
+
+                        InkFlow
+
+                    </h3>
+
+                </div>
+
+                <p
+                class="text-gray-400 leading-8 max-w-sm">
+
+                    A lightweight blogging platform built with
+                    HTML, Tailwind CSS and JavaScript.
+                    Create, publish and explore modern articles
+                    with a beautiful user experience.
+
+                </p>
+
+            </div>
+
+
+            <!-- QUICK LINKS -->
+
+            <div>
+
+                <h3
+                class="text-2xl font-bold mb-6">
+
+                    Quick Links
+
+                </h3>
+
+                <ul
+                class="space-y-4 text-gray-400">
+
+                    <li>
+
+                        <a
+                        href="index.html"
+                        class="hover:text-indigo-400 transition duration-300 flex items-center gap-2">
+
+                            <i class="fa-solid fa-house text-sm"></i>
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a
+                        href="#featured"
+                        class="hover:text-indigo-400 transition duration-300 flex items-center gap-2">
+
+                            <i class="fa-solid fa-newspaper text-sm"></i>
+
+                            Articles
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a
+                        href="about.html"
+                        class="hover:text-indigo-400 transition duration-300 flex items-center gap-2">
+
+                            <i class="fa-solid fa-circle-info text-sm"></i>
+
+                            About
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- SOCIALS -->
+
+            <div>
+
+                <h3
+                class="text-2xl font-bold mb-6">
+
+                    Follow Us
+
+                </h3>
+
+                <div
+                class="flex flex-wrap gap-5">
+
+                    <a href="#"
+                    class="w-14 h-14 rounded-full bg-gray-800 hover:bg-indigo-600 flex items-center justify-center text-2xl transition duration-300 hover:scale-110 shadow-lg">
+
+                        <i class="fab fa-facebook-f"></i>
+
+                    </a>
+
+                    <a href="#"
+                    class="w-14 h-14 rounded-full bg-gray-800 hover:bg-sky-500 flex items-center justify-center text-2xl transition duration-300 hover:scale-110 shadow-lg">
+
+                        <i class="fab fa-twitter"></i>
+
+                    </a>
+
+                    <a href="#"
+                    class="w-14 h-14 rounded-full bg-gray-800 hover:bg-pink-500 flex items-center justify-center text-2xl transition duration-300 hover:scale-110 shadow-lg">
+
+                        <i class="fab fa-instagram"></i>
+
+                    </a>
+
+                    <a href="#"
+                    class="w-14 h-14 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center text-2xl transition duration-300 hover:scale-110 shadow-lg">
+
+                        <i class="fab fa-linkedin-in"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DIVIDER -->
+
+        <div
+        class="border-t border-gray-800 mt-14 pt-8">
+
+            <p
+            class="text-center text-gray-500 text-sm tracking-wide">
+
+                © 2026 InkFlow. All Rights Reserved.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script type="module">
+
+/* ================= FIREBASE ================= */
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyD7cHYw4pPIUL_4E-d6DO5Dp73Pw51q1bw",
+
+authDomain: "c-29-1d32d.firebaseapp.com",
+
+databaseURL: "https://c-29-1d32d-default-rtdb.firebaseio.com",
+
+projectId: "c-29-1d32d",
+
+storageBucket: "c-29-1d32d.firebasestorage.app",
+
+messagingSenderId: "834488455480",
+
+appId: "1:834488455480:web:7f3d80da404527e63871cd",
+
+measurementId: "G-9B68Z0RP31"
+
+};
+
+
+/* ================= INITIALIZE ================= */
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+
+/* ================= ARTICLES ================= */
+
+const articlesContainer =
+document.getElementById("articlesContainer");
+
+let articles =
+JSON.parse(localStorage.getItem("articles")) || [];
+
+
+/* ================= DISPLAY ARTICLES ================= */
+
+function displayArticles(currentUserId) {
+
+articlesContainer.innerHTML = "";
+
+
+/* EMPTY STATE */
+
+if (articles.length === 0) {
+
+articlesContainer.innerHTML = `
+
+<div class="bg-white p-10 rounded-3xl shadow-lg col-span-full text-center">
+
+<h2 class="text-3xl font-bold mb-4">
+No Articles Published Yet
+</h2>
+
+<p class="text-gray-500">
+Published articles will appear here.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* DISPLAY EACH ARTICLE */
+
+articles.forEach((article, index) => {
+
+const isPublisher =
+currentUserId === article.publisherId;
+
+const articleCard =
+document.createElement("div");
+
+articleCard.className =
+"bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300";
+
+
+articleCard.innerHTML = `
+
+<img
+src="${article.image || 'https://via.placeholder.com/600x400'}"
+class="w-full h-56 object-cover">
+
+<div class="p-6">
+
+<p class="text-indigo-600 font-semibold mb-2">
+Publisher ID: ${article.publisherId}
+</p>
+
+<h2 class="text-2xl font-bold mb-3">
+${article.title}
+</h2>
+
+<p class="text-gray-500 text-sm mb-3">
+${article.category} • ${article.readingTime}
+</p>
+
+<p class="text-gray-600 mb-6 leading-7">
+${article.content.substring(0, 180)}...
+</p>
+
+<div class="flex items-center justify-between gap-4">
+
+<span class="text-sm text-gray-400">
+${article.date}
+</span>
+
+<div class="flex gap-3">
+
+<button
+class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg transition">
+
+Read Article
+
+</button>
+
+${
+isPublisher
+?
+
+`<button
+class="deleteBtn bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg transition"
+data-index="${index}">
+
+<i class="fa-solid fa-trash mr-2"></i>
+Delete
+
+</button>`
+
+:
+
+""
+}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+articlesContainer.appendChild(articleCard);
+
+});
+
+
+/* ================= DELETE ARTICLE ================= */
+
+const deleteButtons =
+document.querySelectorAll(".deleteBtn");
+
+deleteButtons.forEach((button) => {
+
+button.addEventListener("click", () => {
+
+const index =
+button.dataset.index;
+
+const confirmDelete =
+confirm(
+"Are you sure you want to delete this article?"
+);
+
+if (!confirmDelete) return;
+
+
+/* REMOVE ARTICLE */
+
+articles.splice(index, 1);
+
+
+/* UPDATE STORAGE */
+
+localStorage.setItem(
+"articles",
+JSON.stringify(articles)
+);
+
+
+/* REFRESH PAGE ARTICLES */
+
+displayArticles(currentUserId);
+
+});
+
+});
+
+}
+
+
+/* ================= AUTH CHECK ================= */
+
+onAuthStateChanged(auth, (user) => {
+
+if (user) {
+
+displayArticles(user.uid);
+
+} else {
+
+displayArticles(null);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

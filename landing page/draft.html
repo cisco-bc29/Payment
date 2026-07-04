@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Drafts | InkFlow</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+<!-- HEADER -->
+
+<header class="bg-indigo-600 text-white shadow-lg">
+
+<div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+
+<div class="flex items-center gap-3">
+
+<i class="fa-solid fa-pen-nib text-3xl"></i>
+
+<h1 class="text-3xl font-bold">
+InkFlow Drafts
+</h1>
+
+</div>
+
+<div class="flex items-center gap-4">
+
+<a
+href="create.html"
+class="bg-white text-indigo-600 px-5 py-3 rounded-xl font-semibold hover:bg-gray-100 transition">
+
+<i class="fa-solid fa-plus mr-2"></i>
+Create Article
+
+</a>
+
+<a
+href="article.html"
+class="bg-indigo-500 hover:bg-indigo-400 px-5 py-3 rounded-xl font-semibold transition">
+
+Published Articles
+
+</a>
+
+</div>
+
+</div>
+
+</header>
+
+<!-- PAGE TITLE -->
+
+<section class="max-w-7xl mx-auto px-6 py-10">
+
+<div class="flex items-center justify-between flex-wrap gap-4">
+
+<div>
+
+<h2 class="text-4xl font-bold text-gray-800">
+My Draft Articles
+</h2>
+
+<p class="text-gray-500 mt-2">
+Only you can view your saved drafts.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- DRAFT CONTAINER -->
+
+<section class="max-w-7xl mx-auto px-6 pb-16">
+
+<div
+id="draftContainer"
+class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+</div>
+
+</section>
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import { getAnalytics }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+
+import {
+
+getAuth,
+onAuthStateChanged
+
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyD7cHYw4pPIUL_4E-d6DO5Dp73Pw51q1bw",
+
+authDomain:
+"c-29-1d32d.firebaseapp.com",
+
+databaseURL:
+"https://c-29-1d32d-default-rtdb.firebaseio.com",
+
+projectId:
+"c-29-1d32d",
+
+storageBucket:
+"c-29-1d32d.firebasestorage.app",
+
+messagingSenderId:
+"834488455480",
+
+appId:
+"1:834488455480:web:7f3d80da404527e63871cd",
+
+measurementId:
+"G-9B68Z0RP31"
+
+};
+
+
+/* INIT */
+
+const app =
+initializeApp(firebaseConfig);
+
+getAnalytics(app);
+
+const auth =
+getAuth(app);
+
+const draftContainer =
+document.getElementById("draftContainer");
+
+
+/* AUTH CHECK */
+
+onAuthStateChanged(auth, (user) => {
+
+if (!user) {
+
+alert("Please login first");
+
+window.location.href =
+"login.html";
+
+return;
+
+}
+
+loadDrafts(user);
+
+});
+
+
+/* LOAD DRAFTS */
+
+function loadDrafts(user) {
+
+const drafts =
+JSON.parse(
+localStorage.getItem("draftArticles")
+) || [];
+
+
+/* FILTER USER DRAFTS */
+
+const userDrafts =
+drafts.filter(
+draft => draft.userId === user.uid
+);
+
+
+/* EMPTY */
+
+if(userDrafts.length === 0){
+
+draftContainer.innerHTML = `
+
+<div class="col-span-full bg-white rounded-3xl shadow-lg p-12 text-center">
+
+<i class="fa-solid fa-box-open text-6xl text-indigo-500 mb-6"></i>
+
+<h2 class="text-3xl font-bold mb-3">
+No Drafts Found
+</h2>
+
+<p class="text-gray-500 mb-8">
+Your saved draft articles will appear here.
+</p>
+
+<a
+href="create.html"
+class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl font-semibold transition">
+
+Create New Article
+
+</a>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* SHOW DRAFTS */
+
+userDrafts.forEach((draft, index) => {
+
+draftContainer.innerHTML += `
+
+<div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
+
+<img
+src="${draft.image || 'https://via.placeholder.com/600x400'}"
+class="w-full h-60 object-cover">
+
+<div class="p-6">
+
+<div class="flex items-center justify-between mb-4">
+
+<span class="bg-indigo-100 text-indigo-600 px-4 py-1 rounded-full text-sm font-semibold">
+
+${draft.category}
+
+</span>
+
+<span class="text-sm text-gray-500">
+
+${draft.readingTime || "5 min read"}
+
+</span>
+
+</div>
+
+<p class="text-sm text-indigo-600 font-semibold mb-2">
+
+${draft.email}
+
+</p>
+
+<h2 class="text-2xl font-bold mb-3">
+
+${draft.title}
+
+</h2>
+
+<p class="text-gray-500 mb-5">
+
+${draft.subtitle || ""}
+
+</p>
+
+<p class="text-gray-700 leading-7 mb-6">
+
+${draft.content.substring(0, 150)}...
+
+</p>
+
+<div class="flex flex-wrap gap-3">
+
+<button
+onclick="publishDraft(${index})"
+class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl font-semibold transition">
+
+<i class="fa-solid fa-paper-plane mr-2"></i>
+Publish
+
+</button>
+
+<button
+onclick="deleteDraft(${index})"
+class="bg-red-100 text-red-600 hover:bg-red-200 px-5 py-3 rounded-xl font-semibold transition">
+
+<i class="fa-solid fa-trash mr-2"></i>
+Delete
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+/* PUBLISH DRAFT */
+
+window.publishDraft = function(index){
+
+const drafts =
+JSON.parse(
+localStorage.getItem("draftArticles")
+) || [];
+
+const userDrafts =
+drafts.filter(
+draft => draft.userId === user.uid
+);
+
+const selectedDraft =
+userDrafts[index];
+
+
+/* GET PUBLISHED */
+
+let articles =
+JSON.parse(
+localStorage.getItem("articles")
+) || [];
+
+
+/* ADD TO ARTICLES */
+
+articles.unshift(selectedDraft);
+
+
+/* SAVE ARTICLES */
+
+localStorage.setItem(
+"articles",
+JSON.stringify(articles)
+);
+
+
+/* REMOVE FROM DRAFT */
+
+const updatedDrafts =
+drafts.filter(
+draft =>
+!(
+draft.title === selectedDraft.title &&
+draft.userId === selectedDraft.userId
+)
+);
+
+localStorage.setItem(
+"draftArticles",
+JSON.stringify(updatedDrafts)
+);
+
+
+/* SUCCESS */
+
+alert("Draft published successfully!");
+
+window.location.href =
+"article.html";
+
+};
+
+
+/* DELETE DRAFT */
+
+window.deleteDraft = function(index){
+
+const drafts =
+JSON.parse(
+localStorage.getItem("draftArticles")
+) || [];
+
+const userDrafts =
+drafts.filter(
+draft => draft.userId === user.uid
+);
+
+const selectedDraft =
+userDrafts[index];
+
+const updatedDrafts =
+drafts.filter(
+draft =>
+!(
+draft.title === selectedDraft.title &&
+draft.userId === selectedDraft.userId
+)
+);
+
+localStorage.setItem(
+"draftArticles",
+JSON.stringify(updatedDrafts)
+);
+
+alert("Draft deleted successfully!");
+
+location.reload();
+
+};
+
+}
+
+</script>
+
+</body>
+</html>

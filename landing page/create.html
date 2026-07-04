@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Create Article | InkFlow</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="bg-white shadow-sm sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+        <div class="flex items-center gap-2 text-2xl font-bold text-indigo-600">
+            <i class="fa-solid fa-pen-nib"></i>
+            <span>InkFlow</span>
+        </div>
+
+        <ul class="hidden md:flex items-center gap-8 font-medium">
+            <li><a href="index.html" class="hover:text-indigo-600">Home</a></li>
+            <li><a href="article.html" class="hover:text-indigo-600">Articles</a></li>
+            <li><a href="draft.html" class="hover:text-indigo-600">Drafts</a></li>
+            <li><a href="create.html" class="text-indigo-600">Write</a></li>
+        </ul>
+
+        <button class="text-xl md:hidden">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+    </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="bg-indigo-600 text-white py-20 px-6">
+    <div class="max-w-5xl mx-auto">
+
+        <h1 class="text-5xl font-bold mb-4">
+            Create a New Article
+        </h1>
+
+        <p class="text-lg text-indigo-100">
+            Share your knowledge, stories and ideas with readers around the world.
+        </p>
+
+    </div>
+</section>
+
+<!-- ================= FORM ================= -->
+
+<section class="max-w-5xl mx-auto p-6 -mt-10">
+
+<form id="postForm" class="bg-white rounded-3xl shadow-lg p-8 space-y-8">
+
+<!-- TITLE -->
+
+<div>
+
+    <!-- PUBLISHER EMAIL -->
+
+    <label class="block font-semibold mb-3">
+        Publisher ID
+    </label>
+
+    <input
+    type="text"
+    id="publisherId"
+    required
+    class="w-full border border-gray-300 bg-gray-100 rounded-xl px-5 py-4 mb-6 focus:outline-none"/>
+
+    <!-- ARTICLE TITLE -->
+
+    <label class="block font-semibold mb-3">
+        Article Title
+    </label>
+
+    <input
+    type="text"
+    id="title"
+    placeholder="Enter article title..."
+    required
+    class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+
+</div>
+
+<!-- SUBTITLE -->
+
+<div>
+    <label class="block font-semibold mb-3">
+        Subtitle
+    </label>
+
+    <input
+    type="text"
+    id="subtitle"
+    placeholder="Enter article subtitle..."
+    class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+</div>
+
+<!-- CATEGORY + TIME -->
+
+<div class="grid md:grid-cols-2 gap-6">
+
+    <div>
+        <label class="block font-semibold mb-3">
+            Category
+        </label>
+
+        <select
+        id="category"
+        class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+            <option>Technology</option>
+            <option>Programming</option>
+            <option>Business</option>
+            <option>Education</option>
+            <option>Lifestyle</option>
+            <option>Design</option>
+
+        </select>
+    </div>
+
+    <div>
+        <label class="block font-semibold mb-3">
+            Reading Time
+        </label>
+
+        <input
+        type="text"
+        id="readingTime"
+        placeholder="Example: 6 min read"
+        class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+    </div>
+
+</div>
+
+<!-- IMAGE URL -->
+
+<div>
+    <label class="block font-semibold mb-3">
+        Featured Image URL
+    </label>
+
+    <input
+    type="url"
+    id="image"
+    placeholder="https://example.com/image.jpg"
+    class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+</div>
+
+<!-- LOCAL IMAGE -->
+
+<div>
+    <label class="block font-semibold mb-3">
+        Upload Local Image
+    </label>
+
+    <input
+    type="file"
+    id="localImage"
+    accept="image/*"
+    class="w-full border border-gray-300 rounded-xl px-5 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+
+    <p class="text-sm text-gray-500 mt-2">
+        Upload image directly from your device
+    </p>
+</div>
+
+<!-- IMAGE PREVIEW -->
+
+<div id="imagePreviewContainer" class="hidden">
+
+    <label class="block font-semibold mb-3">
+        Image Preview
+    </label>
+
+    <img
+    id="imagePreview"
+    class="w-full h-72 object-cover rounded-2xl border border-gray-300"/>
+
+</div>
+
+<!-- TAGS -->
+
+<div>
+    <label class="block font-semibold mb-3">
+        Tags
+    </label>
+
+    <input
+    type="text"
+    id="tags"
+    placeholder="HTML, CSS, JavaScript"
+    class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+</div>
+
+<!-- CONTENT -->
+
+<div>
+    <label class="block font-semibold mb-3">
+        Article Content
+    </label>
+
+    <textarea
+    id="content"
+    rows="14"
+    placeholder="Write your article here..."
+    required
+    class="w-full border border-gray-300 rounded-xl px-5 py-4 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+
+    <p id="charCount" class="text-sm text-gray-500 mt-2">
+        0 Characters
+    </p>
+</div>
+
+<!-- BUTTONS -->
+
+<div class="flex flex-wrap gap-4 pt-4">
+
+<button type="button" id="draftBtn" class="bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-xl font-semibold transition"> <i class="fa-solid fa-floppy-disk mr-2"></i> Save as Draft </button>
+
+<button
+type="reset"
+class="bg-red-100 text-red-600 hover:bg-red-200 px-6 py-3 rounded-xl font-semibold transition">
+
+    <i class="fa-solid fa-trash mr-2"></i>
+    Clear
+
+</button>
+
+<button
+type="submit"
+id="publishBtn"
+class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition">
+
+<i class="fa-solid fa-paper-plane mr-2"></i>
+Publish
+
+</button>
+
+</div>
+
+</form>
+
+</section>
+
+<!-- ================= PREVIEW ================= -->
+
+<section class="max-w-5xl mx-auto px-6 pb-16">
+
+    <div class="bg-white rounded-3xl shadow-lg p-8">
+
+        <h2 class="text-3xl font-bold mb-6">
+            Article Preview
+        </h2>
+
+        <h3 id="previewTitle" class="text-4xl font-bold mb-4">
+            Your Title Appears Here
+        </h3>
+
+        <p id="previewContent" class="text-gray-600 leading-8">
+            Your article preview will appear here as you type.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script type="module">
+
+/* ================= FIREBASE ================= */
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import { getAnalytics }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/* ================= CONFIG ================= */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyD7cHYw4pPIUL_4E-d6DO5Dp73Pw51q1bw",
+
+    authDomain:
+    "c-29-1d32d.firebaseapp.com",
+
+    databaseURL:
+    "https://c-29-1d32d-default-rtdb.firebaseio.com",
+
+    projectId:
+    "c-29-1d32d",
+
+    storageBucket:
+    "c-29-1d32d.firebasestorage.app",
+
+    messagingSenderId:
+    "834488455480",
+
+    appId:
+    "1:834488455480:web:7f3d80da404527e63871cd",
+
+    measurementId:
+    "G-9B68Z0RP31"
+
+};
+
+/* ================= INIT ================= */
+
+const app = initializeApp(firebaseConfig);
+
+getAnalytics(app);
+
+const auth = getAuth(app);
+
+/* ================= LOGIN CHECK ================= */
+
+let currentUser = null;
+let uploadedImage = "";
+
+onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+
+        alert("You must login first");
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    document.getElementById("publisherId").value =
+    currentUser.uid;
+
+});
+
+/* ================= CHARACTER COUNTER ================= */
+
+const textarea =
+document.getElementById("content");
+
+const counter =
+document.getElementById("charCount");
+
+textarea.addEventListener("input", () => {
+
+    counter.textContent =
+    textarea.value.length + " Characters";
+
+});
+
+/* ================= LIVE PREVIEW ================= */
+
+const titleInput =
+document.getElementById("title");
+
+const previewTitle =
+document.getElementById("previewTitle");
+
+const previewContent =
+document.getElementById("previewContent");
+
+titleInput.addEventListener("input", () => {
+
+    previewTitle.textContent =
+    titleInput.value ||
+    "Your Title Appears Here";
+
+});
+
+textarea.addEventListener("input", () => {
+
+    previewContent.textContent =
+    textarea.value ||
+    "Your article preview will appear here.";
+
+});
+
+/* ================= LOCAL IMAGE ================= */
+
+const localImageInput =
+document.getElementById("localImage");
+
+const imagePreview =
+document.getElementById("imagePreview");
+
+const imagePreviewContainer =
+document.getElementById("imagePreviewContainer");
+
+localImageInput.addEventListener("change", (event) => {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        uploadedImage = e.target.result;
+
+        imagePreview.src = uploadedImage;
+
+        imagePreviewContainer.classList.remove("hidden");
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+/* ================= PUBLISH ARTICLE ================= */
+
+document.getElementById("postForm")
+.addEventListener("submit", (e) => {
+
+e.preventDefault();
+
+if (!currentUser) {
+
+alert("You must login first");
+
+return;
+
+}
+
+const imageUrl =
+document.getElementById("image").value;
+
+const finalImage =
+uploadedImage || imageUrl || "https://via.placeholder.com/600x400";
+
+const article = {
+
+publisherId:
+currentUser.uid,
+
+title:
+document.getElementById("title").value,
+
+subtitle:
+document.getElementById("subtitle").value,
+
+category:
+document.getElementById("category").value,
+
+readingTime:
+document.getElementById("readingTime").value,
+
+image:
+finalImage,
+
+tags:
+document.getElementById("tags").value,
+
+content:
+document.getElementById("content").value,
+
+status:
+"published",
+
+date:
+new Date().toLocaleDateString(),
+
+userId:
+currentUser.uid
+
+};
+
+/* GET EXISTING ARTICLES */
+
+let articles =
+JSON.parse(
+localStorage.getItem("articles")
+) || [];
+
+/* SAVE ARTICLE */
+
+articles.unshift(article);
+
+/* STORE ARTICLES */
+
+localStorage.setItem(
+"articles",
+JSON.stringify(articles)
+);
+
+/* SUCCESS */
+
+alert("Article published successfully!");
+
+/* REDIRECT */
+
+window.location.href =
+"article.html";
+
+});
+
+document.getElementById("draftBtn") .addEventListener("click", () => { if (!currentUser) { alert("You must login first"); return; } const imageUrl = document.getElementById("image").value; const finalImage = uploadedImage || imageUrl || "https://via.placeholder.com/600x400"; const draftArticle = { email: currentUser.email, title: document.getElementById("title").value, subtitle: document.getElementById("subtitle").value, category: document.getElementById("category").value, readingTime: document.getElementById("readingTime").value, image: finalImage, tags: document.getElementById("tags").value, content: document.getElementById("content").value, status: "draft", date: new Date().toLocaleDateString(), userId: currentUser.uid }; /* GET ALL DRAFTS */ let drafts = JSON.parse( localStorage.getItem("draftArticles") ) || []; /* ADD NEW DRAFT */ drafts.unshift(draftArticle); /* SAVE DRAFTS */ localStorage.setItem( "draftArticles", JSON.stringify(drafts) ); /* SUCCESS */ alert("Article saved to drafts!"); /* REDIRECT TO DRAFT PAGE */ window.location.href = "draft.html"; });
+
+</script>
+
+</body>
+</html>

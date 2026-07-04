@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login | InkFlow</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-6">
+
+<div class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl">
+
+<div class="text-center mb-8">
+
+<div class="w-20 h-20 mx-auto bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 text-3xl">
+<i class="fa-solid fa-pen-nib"></i>
+</div>
+
+<h1 class="text-4xl font-bold mt-5">
+InkFlow
+</h1>
+
+<p class="text-gray-500 mt-2">
+Login to your account
+</p>
+
+</div>
+
+<form id="loginForm" class="space-y-5">
+
+<div>
+
+<label class="font-medium">
+
+</label>
+
+<div>
+
+<label class="font-medium">
+
+Email
+
+</label>
+
+<input
+type="email"
+id="email"
+required
+placeholder="Enter your email"
+class="w-full mt-2 border border-gray-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-indigo-500">
+
+</div>
+
+<div>
+
+<label class="font-medium">
+Password
+</label>
+
+<input
+type="password"
+id="password"
+required
+placeholder="Enter password"
+class="w-full mt-2 border border-gray-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-indigo-500">
+
+</div> <br>
+
+<button
+type="submit"
+class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-xl font-semibold transition">
+
+Login
+
+</button>
+
+</form>
+
+<p class="text-center mt-6 text-gray-600">
+
+Don't have an account?
+
+<a href="signup.html"
+class="text-indigo-600 font-semibold">
+
+Sign Up
+
+</a>
+
+</p>
+
+<p
+id="message"
+class="text-center mt-5 font-medium"></p>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyD7cHYw4pPIUL_4E-d6DO5Dp73Pw51q1bw",
+
+authDomain: "c-29-1d32d.firebaseapp.com",
+
+databaseURL: "https://c-29-1d32d-default-rtdb.firebaseio.com",
+
+projectId: "c-29-1d32d",
+
+storageBucket: "c-29-1d32d.firebasestorage.app",
+
+messagingSenderId: "834488455480",
+
+appId: "1:834488455480:web:7f3d80da404527e63871cd",
+
+measurementId: "G-9B68Z0RP31"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const loginForm =
+document.getElementById("loginForm");
+
+loginForm.addEventListener("submit",
+async (e) => {
+
+e.preventDefault();
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+try {
+
+const userCredential =
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+localStorage.setItem(
+"inkflowEmail",
+email
+);
+
+alert("Welcome back");
+
+window.location.href =
+"create.html";
+
+} catch (error) {
+
+alert(error.message);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
