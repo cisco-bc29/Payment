@@ -13,13 +13,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
 <!-- HEADER -->
 
 <header class="bg-indigo-600 text-white shadow-lg">
 
-<div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+<div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between flex-wrap gap-4">
 
 <div class="flex items-center gap-3">
 
@@ -31,7 +31,7 @@ InkFlow Drafts
 
 </div>
 
-<div class="flex items-center gap-4">
+<div class="flex items-center gap-4 flex-wrap">
 
 <a
 href="create.html"
@@ -58,7 +58,7 @@ Published Articles
 
 <!-- PAGE TITLE -->
 
-<section class="max-w-7xl mx-auto px-6 py-10">
+<section class="max-w-7xl mx-auto px-6 py-10 w-full">
 
 <div class="flex items-center justify-between flex-wrap gap-4">
 
@@ -80,7 +80,7 @@ Only you can view your saved drafts.
 
 <!-- DRAFT CONTAINER -->
 
-<section class="max-w-7xl mx-auto px-6 pb-16">
+<section class="max-w-7xl mx-auto px-6 pb-16 flex-1 w-full">
 
 <div
 id="draftContainer"
@@ -107,7 +107,6 @@ onAuthStateChanged
 
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
 
 /* FIREBASE CONFIG */
 
@@ -139,7 +138,6 @@ measurementId:
 
 };
 
-
 /* INIT */
 
 const app =
@@ -152,7 +150,6 @@ getAuth(app);
 
 const draftContainer =
 document.getElementById("draftContainer");
-
 
 /* AUTH CHECK */
 
@@ -173,7 +170,6 @@ loadDrafts(user);
 
 });
 
-
 /* LOAD DRAFTS */
 
 function loadDrafts(user) {
@@ -183,14 +179,12 @@ JSON.parse(
 localStorage.getItem("draftArticles")
 ) || [];
 
-
 /* FILTER USER DRAFTS */
 
 const userDrafts =
 drafts.filter(
 draft => draft.userId === user.uid
 );
-
 
 /* EMPTY */
 
@@ -226,22 +220,28 @@ return;
 
 }
 
-
 /* SHOW DRAFTS */
+
+draftContainer.innerHTML = "";
 
 userDrafts.forEach((draft, index) => {
 
+const shortContent =
+draft.content.length > 150
+? draft.content.substring(0, 150) + "..."
+: draft.content;
+
 draftContainer.innerHTML += `
 
-<div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
+<div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
 
 <img
 src="${draft.image || 'https://via.placeholder.com/600x400'}"
 class="w-full h-60 object-cover">
 
-<div class="p-6">
+<div class="p-6 flex flex-col flex-1 overflow-hidden">
 
-<div class="flex items-center justify-between mb-4">
+<div class="flex items-center justify-between mb-4 flex-wrap gap-3">
 
 <span class="bg-indigo-100 text-indigo-600 px-4 py-1 rounded-full text-sm font-semibold">
 
@@ -257,31 +257,41 @@ ${draft.readingTime || "5 min read"}
 
 </div>
 
-<p class="text-sm text-indigo-600 font-semibold mb-2">
+<p class="text-lg text-indigo-600 font-semibold mb-2 break-all overflow-hidden">
 
-${draft.email}
+${draft.publisherId || "Anonymous"}
 
 </p>
 
-<h2 class="text-2xl font-bold mb-3">
+<h2 class="text-2xl font-bold mb-3 break-all overflow-hidden">
 
 ${draft.title}
 
 </h2>
 
-<p class="text-gray-500 mb-5">
+<p class="text-gray-500 mb-5 break-all overflow-hidden">
 
 ${draft.subtitle || ""}
 
 </p>
 
-<p class="text-gray-700 leading-7 mb-6">
+<p
+class="text-gray-700 leading-7 mb-6 draftContent break-all whitespace-pre-wrap overflow-hidden max-w-full"
+style="word-break: break-word; overflow-wrap: break-word;"
+data-full="${draft.content.replace(/"/g, '&quot;')}">
 
-${draft.content.substring(0, 150)}...
+${shortContent}
 
 </p>
 
-<div class="flex flex-wrap gap-3">
+<div class="flex flex-wrap gap-3 mt-auto">
+
+<button
+class="readBtn bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-semibold transition">
+
+Read Draft
+
+</button>
 
 <button
 onclick="publishDraft(${index})"
@@ -311,6 +321,48 @@ Delete
 
 });
 
+/* READ MORE */
+
+const readButtons =
+document.querySelectorAll(".readBtn");
+
+readButtons.forEach((button) => {
+
+button.addEventListener("click", () => {
+
+const card =
+button.closest(".bg-white");
+
+const content =
+card.querySelector(".draftContent");
+
+const fullText =
+content.dataset.full;
+
+const isExpanded =
+button.textContent.trim() === "Close Draft";
+
+if (isExpanded) {
+
+content.textContent =
+fullText.substring(0, 150) + "...";
+
+button.textContent =
+"Read Draft";
+
+} else {
+
+content.textContent =
+fullText;
+
+button.textContent =
+"Close Draft";
+
+}
+
+});
+
+});
 
 /* PUBLISH DRAFT */
 
@@ -329,7 +381,6 @@ draft => draft.userId === user.uid
 const selectedDraft =
 userDrafts[index];
 
-
 /* GET PUBLISHED */
 
 let articles =
@@ -337,11 +388,9 @@ JSON.parse(
 localStorage.getItem("articles")
 ) || [];
 
-
 /* ADD TO ARTICLES */
 
 articles.unshift(selectedDraft);
-
 
 /* SAVE ARTICLES */
 
@@ -349,7 +398,6 @@ localStorage.setItem(
 "articles",
 JSON.stringify(articles)
 );
-
 
 /* REMOVE FROM DRAFT */
 
@@ -367,7 +415,6 @@ localStorage.setItem(
 JSON.stringify(updatedDrafts)
 );
 
-
 /* SUCCESS */
 
 alert("Draft published successfully!");
@@ -376,7 +423,6 @@ window.location.href =
 "article.html";
 
 };
-
 
 /* DELETE DRAFT */
 

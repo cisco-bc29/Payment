@@ -10,9 +10,19 @@
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<style>
+.articleContent{
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+</style>
+
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
 <header class="bg-indigo-600 text-white py-6 shadow-lg">
 
@@ -34,7 +44,7 @@ Create Article
 
 </header>
 
-<section class="max-w-7xl mx-auto p-6">
+<section class="max-w-7xl mx-auto p-6 flex-1 w-full">
 
 <div
 id="articlesContainer"
@@ -53,8 +63,6 @@ class="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white pt-16 pb
 
         <div
         class="grid md:grid-cols-3 gap-14">
-
-            <!-- BRAND -->
 
             <div>
 
@@ -89,9 +97,6 @@ class="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white pt-16 pb
 
             </div>
 
-
-            <!-- QUICK LINKS -->
-
             <div>
 
                 <h3
@@ -121,7 +126,7 @@ class="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white pt-16 pb
                     <li>
 
                         <a
-                        href="#featured"
+                        href="article.html"
                         class="hover:text-indigo-400 transition duration-300 flex items-center gap-2">
 
                             <i class="fa-solid fa-newspaper text-sm"></i>
@@ -149,9 +154,6 @@ class="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white pt-16 pb
                 </ul>
 
             </div>
-
-
-            <!-- SOCIALS -->
 
             <div>
 
@@ -199,9 +201,6 @@ class="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white pt-16 pb
 
         </div>
 
-
-        <!-- DIVIDER -->
-
         <div
         class="border-t border-gray-800 mt-14 pt-8">
 
@@ -218,10 +217,7 @@ class="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white pt-16 pb
 
 </footer>
 
-
 <script type="module">
-
-/* ================= FIREBASE ================= */
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -231,9 +227,6 @@ getAuth,
 onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-/* ================= FIREBASE CONFIG ================= */
 
 const firebaseConfig = {
 
@@ -255,17 +248,11 @@ measurementId: "G-9B68Z0RP31"
 
 };
 
-
-/* ================= INITIALIZE ================= */
-
 const app =
 initializeApp(firebaseConfig);
 
 const auth =
 getAuth(app);
-
-
-/* ================= ARTICLES ================= */
 
 const articlesContainer =
 document.getElementById("articlesContainer");
@@ -273,15 +260,9 @@ document.getElementById("articlesContainer");
 let articles =
 JSON.parse(localStorage.getItem("articles")) || [];
 
-
-/* ================= DISPLAY ARTICLES ================= */
-
 function displayArticles(currentUserId) {
 
 articlesContainer.innerHTML = "";
-
-
-/* EMPTY STATE */
 
 if (articles.length === 0) {
 
@@ -305,20 +286,21 @@ return;
 
 }
 
-
-/* DISPLAY EACH ARTICLE */
-
 articles.forEach((article, index) => {
 
 const isPublisher =
-currentUserId === article.publisherId;
+currentUserId === article.userId;
 
 const articleCard =
 document.createElement("div");
 
 articleCard.className =
-"bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300";
+"bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 flex flex-col";
 
+const shortContent =
+article.content.length > 180
+? article.content.substring(0, 180) + "..."
+: article.content;
 
 articleCard.innerHTML = `
 
@@ -326,34 +308,38 @@ articleCard.innerHTML = `
 src="${article.image || 'https://via.placeholder.com/600x400'}"
 class="w-full h-56 object-cover">
 
-<div class="p-6">
+<div class="p-6 flex flex-col flex-1">
 
-<p class="text-indigo-600 font-semibold mb-2">
-Publisher ID: ${article.publisherId}
+<p class="text-indigo-600 font-semibold mb-2 text-lg break-all">
+${article.publisherId}
 </p>
 
-<h2 class="text-2xl font-bold mb-3">
+<h2 class="text-2xl font-bold mb-3 break-words">
 ${article.title}
 </h2>
 
-<p class="text-gray-500 text-sm mb-3">
+<p class="text-gray-500 text-sm mb-3 break-words">
 ${article.category} • ${article.readingTime}
 </p>
 
-<p class="text-gray-600 mb-6 leading-7">
-${article.content.substring(0, 180)}...
+<p
+class="text-gray-600 mb-6 leading-7 articleContent break-all"
+data-full="${article.content.replace(/"/g, '&quot;')}">
+
+${shortContent}
+
 </p>
 
-<div class="flex items-center justify-between gap-4">
+<div class="flex items-center justify-between gap-4 mt-auto">
 
 <span class="text-sm text-gray-400">
 ${article.date}
 </span>
 
-<div class="flex gap-3">
+<div class="flex gap-3 flex-wrap">
 
 <button
-class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg transition">
+class="readBtn bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg transition">
 
 Read Article
 
@@ -361,6 +347,7 @@ Read Article
 
 ${
 isPublisher
+
 ?
 
 `<button
@@ -389,8 +376,46 @@ articlesContainer.appendChild(articleCard);
 
 });
 
+const readButtons =
+document.querySelectorAll(".readBtn");
 
-/* ================= DELETE ARTICLE ================= */
+readButtons.forEach((button) => {
+
+button.addEventListener("click", () => {
+
+const articleCard =
+button.closest(".bg-white");
+
+const content =
+articleCard.querySelector(".articleContent");
+
+const fullText =
+content.dataset.full;
+
+const isExpanded =
+button.textContent.trim() === "Close Article";
+
+if (isExpanded) {
+
+content.textContent =
+fullText.substring(0, 180) + "...";
+
+button.textContent =
+"Read Article";
+
+} else {
+
+content.textContent =
+fullText;
+
+button.textContent =
+"Close Article";
+
+}
+
+});
+
+});
 
 const deleteButtons =
 document.querySelectorAll(".deleteBtn");
@@ -409,21 +434,12 @@ confirm(
 
 if (!confirmDelete) return;
 
-
-/* REMOVE ARTICLE */
-
 articles.splice(index, 1);
-
-
-/* UPDATE STORAGE */
 
 localStorage.setItem(
 "articles",
 JSON.stringify(articles)
 );
-
-
-/* REFRESH PAGE ARTICLES */
 
 displayArticles(currentUserId);
 
@@ -432,9 +448,6 @@ displayArticles(currentUserId);
 });
 
 }
-
-
-/* ================= AUTH CHECK ================= */
 
 onAuthStateChanged(auth, (user) => {
 

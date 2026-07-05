@@ -11,6 +11,19 @@
 <!-- Font Awesome -->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<style>
+#content{
+    font-family: monospace;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 49ch;
+    min-height: 500px;
+}
+</style>
+
 </head>
 
 <body class="bg-gray-100 text-gray-800">
@@ -61,11 +74,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 <form id="postForm" class="bg-white rounded-3xl shadow-lg p-8 space-y-8">
 
-<!-- TITLE -->
+<!-- PUBLISHER NAME -->
 
 <div>
-
-    <!-- PUBLISHER EMAIL -->
 
     <label class="block font-semibold mb-3">
         Publisher ID
@@ -74,10 +85,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     <input
     type="text"
     id="publisherId"
+    placeholder="Enter your name..."
     required
-    class="w-full border border-gray-300 bg-gray-100 rounded-xl px-5 py-4 mb-6 focus:outline-none"/>
+    class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
 
-    <!-- ARTICLE TITLE -->
+</div>
+
+<!-- ARTICLE TITLE -->
+
+<div>
 
     <label class="block font-semibold mb-3">
         Article Title
@@ -199,7 +215,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     <input
     type="text"
     id="tags"
-    placeholder="HTML, CSS, JavaScript"
+    placeholder="#coding #livelife #smoothtech"
     class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
 </div>
 
@@ -212,10 +228,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
     <textarea
     id="content"
-    rows="14"
+    rows="20"
+    maxlength="100000000000"
     placeholder="Write your article here..."
     required
-    class="w-full border border-gray-300 rounded-xl px-5 py-4 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+    class="border border-gray-300 rounded-xl px-5 py-4 resize-y focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"></textarea>
 
     <p id="charCount" class="text-sm text-gray-500 mt-2">
         0 Characters
@@ -226,14 +243,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 <div class="flex flex-wrap gap-4 pt-4">
 
-<button type="button" id="draftBtn" class="bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-xl font-semibold transition"> <i class="fa-solid fa-floppy-disk mr-2"></i> Save as Draft </button>
+<button
+type="button"
+id="draftBtn"
+class="bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-xl font-semibold transition">
+
+<i class="fa-solid fa-floppy-disk mr-2"></i>
+Save as Draft
+
+</button>
 
 <button
 type="reset"
 class="bg-red-100 text-red-600 hover:bg-red-200 px-6 py-3 rounded-xl font-semibold transition">
 
-    <i class="fa-solid fa-trash mr-2"></i>
-    Clear
+<i class="fa-solid fa-trash mr-2"></i>
+Clear
 
 </button>
 
@@ -267,7 +292,7 @@ Publish
             Your Title Appears Here
         </h3>
 
-        <p id="previewContent" class="text-gray-600 leading-8">
+        <p id="previewContent" class="text-gray-600 leading-8 whitespace-pre-wrap break-words max-w-[49ch]">
             Your article preview will appear here as you type.
         </p>
 
@@ -350,9 +375,6 @@ onAuthStateChanged(auth, (user) => {
 
     currentUser = user;
 
-    document.getElementById("publisherId").value =
-    currentUser.uid;
-
 });
 
 /* ================= CHARACTER COUNTER ================= */
@@ -366,7 +388,7 @@ document.getElementById("charCount");
 textarea.addEventListener("input", () => {
 
     counter.textContent =
-    textarea.value.length + " Characters";
+    textarea.value.length.toLocaleString() + " Characters";
 
 });
 
@@ -454,7 +476,7 @@ uploadedImage || imageUrl || "https://via.placeholder.com/600x400";
 const article = {
 
 publisherId:
-currentUser.uid,
+document.getElementById("publisherId").value,
 
 title:
 document.getElementById("title").value,
@@ -517,7 +539,93 @@ window.location.href =
 
 });
 
-document.getElementById("draftBtn") .addEventListener("click", () => { if (!currentUser) { alert("You must login first"); return; } const imageUrl = document.getElementById("image").value; const finalImage = uploadedImage || imageUrl || "https://via.placeholder.com/600x400"; const draftArticle = { email: currentUser.email, title: document.getElementById("title").value, subtitle: document.getElementById("subtitle").value, category: document.getElementById("category").value, readingTime: document.getElementById("readingTime").value, image: finalImage, tags: document.getElementById("tags").value, content: document.getElementById("content").value, status: "draft", date: new Date().toLocaleDateString(), userId: currentUser.uid }; /* GET ALL DRAFTS */ let drafts = JSON.parse( localStorage.getItem("draftArticles") ) || []; /* ADD NEW DRAFT */ drafts.unshift(draftArticle); /* SAVE DRAFTS */ localStorage.setItem( "draftArticles", JSON.stringify(drafts) ); /* SUCCESS */ alert("Article saved to drafts!"); /* REDIRECT TO DRAFT PAGE */ window.location.href = "draft.html"; });
+/* ================= SAVE DRAFT ================= */
+
+document.getElementById("draftBtn")
+.addEventListener("click", () => {
+
+if (!currentUser) {
+
+alert("You must login first");
+
+return;
+
+}
+
+const imageUrl =
+document.getElementById("image").value;
+
+const finalImage =
+uploadedImage || imageUrl || "https://via.placeholder.com/600x400";
+
+const draftArticle = {
+
+publisherId:
+document.getElementById("publisherId").value,
+
+email:
+currentUser.email,
+
+title:
+document.getElementById("title").value,
+
+subtitle:
+document.getElementById("subtitle").value,
+
+category:
+document.getElementById("category").value,
+
+readingTime:
+document.getElementById("readingTime").value,
+
+image:
+finalImage,
+
+tags:
+document.getElementById("tags").value,
+
+content:
+document.getElementById("content").value,
+
+status:
+"draft",
+
+date:
+new Date().toLocaleDateString(),
+
+userId:
+currentUser.uid
+
+};
+
+/* GET ALL DRAFTS */
+
+let drafts =
+JSON.parse(
+localStorage.getItem("draftArticles")
+) || [];
+
+/* ADD NEW DRAFT */
+
+drafts.unshift(draftArticle);
+
+/* SAVE DRAFTS */
+
+localStorage.setItem(
+"draftArticles",
+JSON.stringify(drafts)
+);
+
+/* SUCCESS */
+
+alert("Article saved to drafts!");
+
+/* REDIRECT */
+
+window.location.href =
+"draft.html";
+
+});
 
 </script>
 
