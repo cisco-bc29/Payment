@@ -181,6 +181,7 @@
 <!-- ================= FEATURED ================= -->
 
 <section
+  
   id="featured"
   class="max-w-7xl mx-auto px-6 py-20"
 >
@@ -188,6 +189,147 @@
   <h2 class="text-4xl font-bold text-center mb-14">
     Featured Articles
   </h2>
+
+  <div
+    id="articleContainer"
+    class="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
+  >
+
+    <!-- EDUCATION CARD -->
+    <div
+      class="article-card bg-white rounded-2xl shadow hover:shadow-2xl overflow-hidden transition duration-300 cursor-pointer"
+      data-category="education"
+    >
+
+      <img
+        src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop"
+        class="w-full h-56 object-cover"
+      />
+
+      <div class="p-6">
+
+        <span class="bg-blue-100 text-blue-700 text-sm px-3 py-1 rounded-full">
+          Education
+        </span>
+
+        <h3 class="text-2xl font-bold mt-4 mb-3">
+          Smart Learning for Students
+        </h3>
+
+        <p class="text-gray-600 mb-6">
+          Discover modern study methods and online tools that improve learning experiences.
+        </p>
+
+        <div class="flex justify-between text-sm text-gray-500">
+
+          <span>
+            <i class="fa-solid fa-user"></i>
+            Sarah Clinton
+          </span>
+
+          <span>
+            <i class="fa-solid fa-calendar"></i>
+            July 2026
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- DESIGN CARD -->
+    <div
+      class="article-card bg-white rounded-2xl shadow hover:shadow-2xl overflow-hidden transition duration-300 cursor-pointer"
+      data-category="design"
+    >
+
+      <img
+        src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop"
+        class="w-full h-56 object-cover"
+      />
+
+      <div class="p-6">
+
+        <span class="bg-pink-100 text-pink-700 text-sm px-3 py-1 rounded-full">
+          Design
+        </span>
+
+        <h3 class="text-2xl font-bold mt-4 mb-3">
+          Creating Beautiful Interfaces
+        </h3>
+
+        <p class="text-gray-600 mb-6">
+          Learn how designers create clean layouts, modern branding, and engaging user experiences.
+        </p>
+
+        <div class="flex justify-between text-sm text-gray-500">
+
+          <span>
+            <i class="fa-solid fa-user"></i>
+            Daniel Gray
+          </span>
+
+          <span>
+            <i class="fa-solid fa-calendar"></i>
+            August 2026
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- BUSINESS CARD -->
+    <div
+      class="article-card bg-white rounded-2xl shadow hover:shadow-2xl overflow-hidden transition duration-300 cursor-pointer"
+      data-category="business"
+    >
+
+      <img
+        src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop"
+        class="w-full h-56 object-cover"
+      />
+
+      <div class="p-6">
+
+        <span class="bg-green-100 text-green-700 text-sm px-3 py-1 rounded-full">
+          Business
+        </span>
+
+        <h3 class="text-2xl font-bold mt-4 mb-3">
+          Growing Successful Startups
+        </h3>
+
+        <p class="text-gray-600 mb-6">
+          Explore strategies entrepreneurs use to build profitable and scalable businesses.
+        </p>
+
+        <div class="flex justify-between text-sm text-gray-500">
+
+          <span>
+            <i class="fa-solid fa-user"></i>
+            Michael Reed
+          </span>
+
+          <span>
+            <i class="fa-solid fa-calendar"></i>
+            September 2026
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    
+
+    </div>
+
+  </div> <br>
+
 
   <div
     id="articleContainer"
@@ -373,46 +515,55 @@
 
 <section
   id="latest"
-  class="max-w-7xl mx-auto px-6 py-20"
+  class="max-w-7xl mx-auto px-6 py-20 bg-cover bg-center bg-no-repeat rounded-3xl relative overflow-hidden"
+  style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE6J-c2scs-AoNY44LZA5ZnM-dedRQ6rq9BFF0WY4e_Q&s=10');"
 >
 
-  <h2 class="text-4xl font-bold text-center mb-14">
-    <i>Get posts on Technology like</i>
-  </h2>
+  <!-- Dark Overlay -->
+  <div class="absolute inset-0 bg-black/60"></div>
 
-  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+  <!-- Content -->
+  <div class="relative z-10">
 
-    <div class="bg-white p-6 rounded-2xl shadow hover:-translate-y-2 transition">
-      <h3 class="text-xl font-bold mb-3">Getting Started with HTML5</h3>
-      <p class="text-gray-600">
-        HTML5 introduces powerful semantic elements.
-      </p>
-    </div>
+    <h2 class="text-4xl font-bold text-center mb-14 text-white">
+      <i>Get posts on Technology like</i>
+    </h2>
 
-    <div class="bg-white p-6 rounded-2xl shadow hover:-translate-y-2 transition">
-      <h3 class="text-xl font-bold mb-3">CSS Grid Layout</h3>
-      <p class="text-gray-600">
-        Build responsive websites with CSS Grid.
-      </p>
-    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-    <div class="bg-white p-6 rounded-2xl shadow hover:-translate-y-2 transition">
-      <h3 class="text-xl font-bold mb-3">Mastering JavaScript</h3>
-      <p class="text-gray-600">
-        Understand DOM manipulation and functions.
-      </p>
-    </div>
+      <div class="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow hover:-translate-y-2 transition">
+        <h3 class="text-xl font-bold mb-3">Getting Started with HTML5</h3>
+        <p class="text-gray-600">
+          HTML5 introduces powerful semantic elements.
+        </p>
+      </div>
 
-    <div class="bg-white p-6 rounded-2xl shadow hover:-translate-y-2 transition">
-      <h3 class="text-xl font-bold mb-3">Improve Your UI Design</h3>
-      <p class="text-gray-600">
-        Create clean interfaces users love.
-      </p>
+      <div class="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow hover:-translate-y-2 transition">
+        <h3 class="text-xl font-bold mb-3">CSS Grid Layout</h3>
+        <p class="text-gray-600">
+          Build responsive websites with CSS Grid.
+        </p>
+      </div>
+
+      <div class="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow hover:-translate-y-2 transition">
+        <h3 class="text-xl font-bold mb-3">Mastering JavaScript</h3>
+        <p class="text-gray-600">
+          Understand DOM manipulation and functions.
+        </p>
+      </div>
+
+      <div class="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow hover:-translate-y-2 transition">
+        <h3 class="text-xl font-bold mb-3">Improve Your UI Design</h3>
+        <p class="text-gray-600">
+          Create clean interfaces users love.
+        </p>
+      </div>
+
     </div>
 
   </div>
 
-</section>
+</section> br
 
 <!-- ================= FOOTER ================= -->
 
